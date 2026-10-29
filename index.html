@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhi's Industrial Chem Schedule & Streak</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 md:p-8 font-sans">
+  <div class="max-w-3xl mx-auto space-y-5">
+    <!-- Header & Streak -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex justify-between items-center shadow-lg">
+      <div>
+        <h1 class="text-xl md:text-2xl font-extrabold text-white">Abhi's Smarter Schedule</h1>
+        <p class="text-xs md:text-sm text-slate-400 mt-1">AASTU Industrial Chemistry • Section 1 (03:45 – 22:00)</p>
+      </div>
+      <div class="bg-slate-950 border border-amber-500/60 rounded-xl px-4 py-2.5 text-center">
+        <div id="streakDisplay" class="text-2xl font-black text-amber-400">🔥 0</div>
+        <div class="text-[10px] font-bold tracking-wider text-amber-500 uppercase">Day Streak</div>
+        <div id="bestStreakDisplay" class="text-[10px] text-slate-500 mt-0.5">Best: 0</div>
+      </div>
+    </div>
+
+    <!-- 50/10 Focus Timer -->
+    <div class="bg-indigo-950/70 border border-indigo-500/40 rounded-2xl p-4 flex justify-between items-center">
+      <div>
+        <div id="timerMode" class="text-xs font-bold text-indigo-300 uppercase tracking-wider">⚡ 50/10 Deep Focus Block</div>
+        <div id="timerClock" class="text-3xl font-black text-white mt-1">50:00</div>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="toggleTimer()" id="timerBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition">Start</button>
+        <button onclick="resetTimer()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-2 rounded-xl text-sm transition">Reset</button>
+      </div>
+    </div>
+
+    <!-- Day Tabs -->
+    <div id="dayTabs" class="flex gap-2 overflow-x-auto pb-1"></div>
+
+    <!-- Fixed Campus Timetable -->
+    <div>
+      <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400 mb-2.5">🏫 Section 1 Campus Timetable</h2>
+      <div id="classList" class="space-y-2"></div>
+    </div>
+
+    <!-- Daily Action Blocks -->
+    <div>
+      <div class="flex justify-between items-center mb-2.5">
+        <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400">🎯 Daily 50/10 Study & Routine Blocks</h2>
+        <span id="progressBadge" class="text-xs font-bold text-emerald-400"></span>
+      </div>
+      <div id="blockList" class="space-y-2.5"></div>
+    </div>
+  </div>
+
+  <script>
+    const NOTEBOOKS = {
+      organic: { name: '🧪 Organic Chemistry', url: 'https://gemini.google.com/notebook/d88c9222-9912-4748-916d-698756210c99' },
+      stats: { name: '📊 Statistics Chemistry', url: 'https://gemini.google.com/notebook/03262dc1-ee7b-4a83-bdb4-41b0b57ba3cd' },
+      analytic: { name: '⚛️ Analytic Chemistry', url: 'https://gemini.google.com/notebook/cfe9c80a-f81e-49d5-b5c8-ce9e6062c518' },
+      inorganic: { name: '⚛️ Inorganic Chemistry', url: 'https://gemini.google.com/notebook/d26bb4ce-24f3-40b2-b110-92cb13a66231' },
+      global: { name: '🌍 Global Trends', url: 'https://gemini.google.com/notebook/845237bd-7592-4c00-8dd2-044fa0c6218b' },
+      history: { name: '📜 History', url: 'https://gemini.google.com/notebook/ec16812d-e3c8-4c3d-9df9-c4d0e4ad0154' }
+    };
+
+    const SCHEDULE = {
+      Monday: {
+        classes: [
+          { time: '08:30 AM – 10:30 AM', title: 'Statistics', nb: 'stats' },
+          { time: '10:30 AM – 12:30 PM', title: 'Analytical Chemistry', nb: 'analytic' },
+          { time: '01:30 PM – 03:30 PM', title: 'Inorganic Chemistry', nb: 'inorganic' }
+        ],
+        blocks: [
+          { id: 'mon-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
+          { id: 'mon-1', time: '04:30 – 05:30', title: '50/10 Block 1: Statistics (Pre-Lecture Ch. 5–6)', type: 'study', nb: 'stats', tip: 'Prime Probability Distributions (Binomial, Poisson, Normal) before 8:30 AM class.' },
+          { id: 'mon-2', time: '16:00 – 17:00', title: '50/10 Block 2: Analytical Chem (Equilibria Drill)', type: 'study', nb: 'analytic', tip: 'Solve Ionic Equilibria problems from today\'s 10:30 AM lecture.' },
+          { id: 'mon-3', time: '18:30 – 19:30', title: '50/10 Block 3: Organic Chem (Prep Tuesday Ch. 3–4)', type: 'study', nb: 'organic', tip: 'Preview Nucleophiles, Electrophiles & Stereochemistry for Tuesday\'s class.' },
+          { id: 'mon-4', time: '19:30 – 20:45', title: 'Side Goal 1: Cybersecurity Roadmap & LocalStack', type: 'side' },
+          { id: 'mon-5', time: '20:45 – 22:00', title: 'Calm Wind-Down & Hard Sleep at 22:00', type: 'routine' }
+        ]
+      },
+      Tuesday: {
+        classes: [
+          { time: '08:30 AM – 10:30 AM', title: 'Global Trends', nb: 'global' },
+          { time: '10:30 AM – 12:30 PM', title: 'Organic Chemistry', nb: 'organic' },
+          { time: '01:30 PM – 03:30 PM', title: 'Analytical Chemistry', nb: 'analytic' }
+        ],
+        blocks: [
+          { id: 'tue-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
+          { id: 'tue-1', time: '04:30 – 05:30', title: '50/10 Block 1: Organic Chem (Deep Mechanism Mastery)', type: 'study', nb: 'organic', tip: 'Master SN1 (planar sp2 carbocation -> racemic) vs SN2 (backside attack).' },
+          { id: 'tue-2', time: '16:00 – 17:00', title: '50/10 Block 2: Organic Chem (Post-Lecture Lock-In)', type: 'study', nb: 'organic', tip: 'Redraw all mechanisms from today\'s 10:30 AM class without looking at notes.' },
+          { id: 'tue-3', time: '18:30 – 19:30', title: '50/10 Block 3: Analytical Chem (Ch. 4 & 6 Studio Quiz)', type: 'study', nb: 'analytic', tip: 'Take a Gemini Notebook Quiz on Gravimetric Analysis & Ionic Equilibria.' },
+          { id: 'tue-4', time: '19:30 – 22:00', title: 'Recharge, Acoustic Music & Sleep by 22:00', type: 'routine' }
+        ]
+      },
+      Wednesday: {
+        classes: [
+          { time: '08:30 AM – 10:30 AM', title: 'History', nb: 'history' },
+          { time: '10:30 AM – 12:30 PM', title: 'Inorganic Chemistry', nb: 'inorganic' },
+          { time: '01:30 PM – 03:30 PM', title: 'No Class (Free Afternoon)', nb: null }
+        ],
+        blocks: [
+          { id: 'wed-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
+          { id: 'wed-1', time: '04:30 – 05:30', title: '50/10 Block 1: Inorganic Chem (Pre-Lecture Ch. 2–4)', type: 'study', nb: 'inorganic', tip: 'Prime Alkaline Earth Metals & Periodic Trends before 10:30 AM class.' },
+          { id: 'wed-2', time: '14:00 – 15:00', title: '50/10 Block 2: Statistics (Unit 8 Hypothesis Testing)', type: 'study', nb: 'stats', tip: 'Exploit your free afternoon! Drill Z-test vs t-test & Central Limit Theorem.' },
+          { id: 'wed-3', time: '18:30 – 19:30', title: '50/10 Block 3: Organic Chem (Alkenes & Stereochemistry)', type: 'study', nb: 'organic', tip: 'Drill Addition to C=C double bonds & R/S configurations.' },
+          { id: 'wed-4', time: '19:30 – 20:45', title: 'Side Goal 2: US Undergrad App Workshop Prep / Projects', type: 'side' },
+          { id: 'wed-5', time: '20:45 – 22:00', title: 'Wind-Down & Hard Sleep at 22:00', type: 'routine' }
+        ]
+      },
+      Thursday: {
+        classes: [
+          { time: '08:30 AM – 10:30 AM', title: 'Analytical Chemistry', nb: 'analytic' },
+          { time: '10:30 AM – 03:30 PM', title: 'No Class (Open Study Day)', nb: null }
+        ],
+        blocks: [
+          { id: 'thu-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
+          { id: 'thu-1', time: '04:30 – 05:30', title: '50/10 Block 1: Analytical Chem (Pre-Class Calculations)', type: 'study', nb: 'analytic', tip: 'Work through titration & gravimetric factor calculations before 8:30 AM.' },
+          { id: 'thu-2', time: '14:00 – 15:00', title: '50/10 Block 2: Organic Chem (Ch. 4 Major Reactions)', type: 'study', nb: 'organic', tip: 'Compare SN1, SN2, E1, E2 & Free-Radical Halogenation mechanisms.' },
+          { id: 'thu-3', time: '18:30 – 19:30', title: '50/10 Block 3: Statistics (Confidence Intervals & Sample Size)', type: 'study', nb: 'stats', tip: 'Practice Unit 8 interval estimation problems.' },
+          { id: 'thu-4', time: '19:30 – 22:00', title: 'Rest, Family Time & Sleep by 22:00', type: 'routine' }
+        ]
+      },
+      Friday: {
+        classes: [
+          { time: 'All Day', title: 'No Scheduled Classes — Deep Focus Friday', nb: null }
+        ],
+        blocks: [
+          { id: 'fri-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
+          { id: 'fri-1', time: '04:30 – 05:30', title: '50/10 Block 1: Organic Chem (Full Ch. 1–4 Synthesis)', type: 'study', nb: 'organic', tip: 'Test your intuition on reactivity, hybridization, and steric hindrance.' },
+          { id: 'fri-2', time: '14:00 – 15:00', title: '50/10 Block 2: Statistics (End-to-End Problem Set)', type: 'study', nb: 'stats', tip: 'Solve mixed problems from Ch. 1–2, Ch. 5, Ch. 6, and Ch. 8.' },
+          { id: 'fri-3', time: '18:30 – 19:30', title: '50/10 Block 3: Inorganic Chem (Ch. 4–5 Flashcards)', type: 'study', nb: 'inorganic', tip: 'Active recall using Gemini Notebook Studio Flashcards.' },
+          { id: 'fri-4', time: '19:30 – 20:45', title: 'Side Goal 3: Cybersecurity Lab / FreeCodeCamp', type: 'side' },
+          { id: 'fri-5', time: '20:45 – 22:00', title: 'Wind-Down & Hard Sleep at 22:00', type: 'routine' }
+        ]
+      },
+      Saturday: {
+        classes: [],
+        blocks: [
+          { id: 'sat-0', time: '04:00 – 04:45', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
+          { id: 'sat-1', time: '04:45 – 05:45', title: '50/10 Block 1: Global Trends Batching', type: 'study', nb: 'global', tip: 'Use Audio Overview & Studio Quiz to master the module fast.' },
+          { id: 'sat-2', time: '14:00 – 15:00', title: '50/10 Block 2: History Module Synthesis', type: 'study', nb: 'history', tip: 'Review key themes in History of Ethiopia and the Horn.' },
+          { id: 'sat-3', time: '18:00 – 19:00', title: '50/10 Block 3: Weekly Boss Quiz (Organic + Stats)', type: 'study', nb: 'organic', tip: '50-minute no-notes check on your hardest topics from the week.' }
+        ]
+      },
+      Sunday: {
+        classes: [],
+        blocks: [
+          { id: 'sun-0', time: '05:30 – 06:30', title: 'Sleep-In Recovery & Morning Prayers', type: 'routine' },
+          { id: 'sun-1', time: '16:00 – 17:00', title: '50/10 Block 1: Zero-Prep Setup for Next Week', type: 'study', nb: 'stats', tip: 'Pre-generate next week\'s quizzes & flashcards in Gemini Notebook.' },
+          { id: 'sun-2', time: '18:30 – 19:30', title: '50/10 Block 2: Preview Monday Stats & Analytical', type: 'study', nb: 'analytic', tip: 'Get ahead of Monday\'s 3-lecture day.' }
+        ]
+      }
+    };
+
+    const DAYS = Object.keys(SCHEDULE);
+    let selectedDay = DAYS[(new Date().getDay() + 6) % 7];
+    let timerSeconds = 50 * 60;
+    let timerInterval = null;
+    let isBreak = false;
+
+    const getTodayKey = () => new Date().toISOString().split('T')[0];
+
+    function loadStreak() {
+      const today = getTodayKey();
+      let streak = parseInt(localStorage.getItem('chem_streak') || '0', 10);
+      let best = parseInt(localStorage.getItem('chem_best') || '0', 10);
+      const lastDate = localStorage.getItem('chem_last_date');
+
+      if (lastDate) {
+        const diff = Math.round((new Date(today) - new Date(lastDate)) / (1000 * 60 * 60 * 24));
+        if (diff > 1) {
+          streak = 0;
+          localStorage.setItem('chem_streak', '0');
+        }
+      }
+      document.getElementById('streakDisplay').textContent = `🔥 ${streak}`;
+      document.getElementById('bestStreakDisplay').textContent = `Best: ${best}`;
+    }
+
+    function toggleTask(blockId, isStudy) {
+      const today = getTodayKey();
+      const tasks = JSON.parse(localStorage.getItem('chem_tasks') || '{}');
+      const key = `${today}_${blockId}`;
+      tasks[key] = !tasks[key];
+      localStorage.setItem('chem_tasks', JSON.stringify(tasks));
+
+      if (tasks[key] && isStudy && localStorage.getItem('chem_last_date') !== today) {
+        let streak = parseInt(localStorage.getItem('chem_streak') || '0', 10) + 1;
+        let best = Math.max(streak, parseInt(localStorage.getItem('chem_best') || '0', 10));
+        localStorage.setItem('chem_streak', String(streak));
+        localStorage.setItem('chem_best', String(best));
+        localStorage.setItem('chem_last_date', today);
+      }
+      loadStreak();
+      render();
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerBtn');
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = 'Start';
+      } else {
+        btn.textContent = 'Pause';
+        timerInterval = setInterval(() => {
+          timerSeconds--;
+          if (timerSeconds <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isBreak = !isBreak;
+            timerSeconds = isBreak ? 10 * 60 : 50 * 60;
+            document.getElementById('timerMode').textContent = isBreak ? '☕ 10-Min Recharge Break' : '⚡ 50/10 Deep Focus Block';
+            btn.textContent = 'Start';
+            alert(isBreak ? '50-Min Focus Block Complete! Take a 10-min break.' : 'Break finished! Ready for your next block.');
+          }
+          const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+          const s = String(timerSeconds % 60).padStart(2, '0');
+          document.getElementById('timerClock').textContent = `${m}:${s}`;
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      isBreak = false;
+      timerSeconds = 50 * 60;
+      document.getElementById('timerClock').textContent = '50:00';
+      document.getElementById('timerMode').textContent = '⚡ 50/10 Deep Focus Block';
+      document.getElementById('timerBtn').textContent = 'Start';
+    }
+
+    function render() {
+      const today = getTodayKey();
+      const tasks = JSON.parse(localStorage.getItem('chem_tasks') || '{}');
+
+      // Render Day Tabs
+      document.getElementById('dayTabs').innerHTML = DAYS.map(d => `
+        <button onclick="selectedDay='${d}'; render();" class="px-4 py-2 rounded-xl font-bold text-sm transition ${
+          d === selectedDay ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800'
+        }">${d.slice(0, 3)}</button>
+      `).join('');
+
+      const dayData = SCHEDULE[selectedDay];
+
+      // Render Classes
+      document.getElementById('classList').innerHTML = dayData.classes.length === 0
+        ? `<div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-center text-slate-400 text-sm">🎉 Weekend — No Campus Lectures</div>`
+        : dayData.classes.map(c => `
+          <div class="bg-slate-900 border-l-4 border-sky-400 rounded-xl p-3.5 flex justify-between items-center">
+            <div>
+              <div class="text-xs font-bold text-sky-400">${c.time}</div>
+              <div class="text-sm font-bold text-white mt-0.5">${c.title}</div>
+            </div>
+            ${c.nb ? `<a href="${NOTEBOOKS[c.nb].url}" target="_blank" class="text-xs font-bold text-sky-300 border border-sky-500/40 px-3 py-1.5 rounded-lg hover:bg-sky-950">Open Notebook ↗</a>` : ''}
+          </div>
+        `).join('');
+
+      // Render Blocks
+      const studyBlocks = dayData.blocks.filter(b => b.type === 'study');
+      const doneCount = studyBlocks.filter(b => tasks[`${today}_${b.id}`]).length;
+      document.getElementById('progressBadge').textContent = `${doneCount}/${studyBlocks.length} Study Blocks Done`;
+
+      document.getElementById('blockList').innerHTML = dayData.blocks.map(b => {
+        const done = !!tasks[`${today}_${b.id}`];
+        const nb = b.nb ? NOTEBOOKS[b.nb] : null;
+        return `
+          <div onclick="toggleTask('${b.id}', ${b.type === 'study'})" class="cursor-pointer bg-slate-900 border ${
+            done ? 'border-emerald-500/40 opacity-70' : 'border-slate-800 hover:border-slate-700'
+          } rounded-xl p-4 transition">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center mt-0.5 ${
+                done ? 'bg-emerald-500 border-emerald-500 text-slate-950 font-black' : 'border-slate-600'
+              }">${done ? '✓' : ''}</div>
+              <div class="flex-1">
+                <div class="text-xs font-bold text-slate-400">${b.time}</div>
+                <div class="text-sm md:text-base font-bold ${done ? 'line-through text-slate-500' : 'text-white'} mt-0.5">${b.title}</div>
+                ${b.tip ? `<div class="text-xs text-slate-300 mt-1.5">💡 ${b.tip}</div>` : ''}
+                ${nb ? `<a href="${nb.url}" target="_blank" onclick="event.stopPropagation()" class="inline-block mt-2.5 text-xs font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 px-3 py-1.5 rounded-lg hover:bg-emerald-900/60">Launch ${nb.name} ↗</a>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    loadStreak();
+    render();
+  </script>
+</body>
+</html>

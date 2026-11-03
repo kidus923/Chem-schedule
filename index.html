@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Saint's Schedule & Streak</title>
+  <title>Abhi's Industrial Chem Schedule & Streak</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen p-4 md:p-8 font-sans">
@@ -11,8 +11,8 @@
     <!-- Header & Streak -->
     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex justify-between items-center shadow-lg">
       <div>
-        <h1 class="text-xl md:text-2xl font-extrabold text-white">Saint's Schedule</h1>
-        <p class="text-xs md:text-sm text-slate-400 mt-1">AASTU Industrial Chemistry • Section 1 (03:45 – 22:00)</p>
+        <h1 class="text-xl md:text-2xl font-extrabold text-white">Abhi's Smarter Schedule</h1>
+        <p class="text-xs md:text-sm text-slate-400 mt-1">AASTU Industrial Chemistry • Section 1 Permanent Schedule (2026)[cite: 4]</p>
       </div>
       <div class="bg-slate-950 border border-amber-500/60 rounded-xl px-4 py-2.5 text-center">
         <div id="streakDisplay" class="text-2xl font-black text-amber-400">🔥 0</div>
@@ -38,7 +38,7 @@
 
     <!-- Fixed Campus Timetable -->
     <div>
-      <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400 mb-2.5">🏫 Section 1 Campus Timetable</h2>
+      <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400 mb-2.5">🏫 Section 1 Permanent Timetable[cite: 4]</h2>
       <div id="classList" class="space-y-2"></div>
     </div>
 
@@ -66,14 +66,14 @@
       Monday: {
         classes: [
           { time: '08:30 AM – 10:30 AM', title: 'Statistics', nb: 'stats' },
-          { time: '10:30 AM – 12:30 PM', title: 'Analytical Chemistry', nb: 'analytic' },
-          { time: '01:30 PM – 03:30 PM', title: 'Inorganic Chemistry', nb: 'inorganic' }
+          { time: '10:30 AM – 12:30 PM', title: 'Inorganic Chemistry', nb: 'inorganic' },
+          { time: '01:30 PM – 03:30 PM', title: 'Practical Analytical Chemistry', nb: 'analytic' }
         ],
         blocks: [
           { id: 'mon-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
-          { id: 'mon-1', time: '04:30 – 05:30', title: '50/10 Block 1: Statistics (Pre-Lecture Ch. 5–6)', type: 'study', nb: 'stats', tip: 'Prime Probability Distributions (Binomial, Poisson, Normal) before 8:30 AM class.' },
-          { id: 'mon-2', time: '16:00 – 17:00', title: '50/10 Block 2: Analytical Chem (Equilibria Drill)', type: 'study', nb: 'analytic', tip: 'Solve Ionic Equilibria problems from today\'s 10:30 AM lecture.' },
-          { id: 'mon-3', time: '18:30 – 19:30', title: '50/10 Block 3: Organic Chem (Prep Tuesday Ch. 3–4)', type: 'study', nb: 'organic', tip: 'Preview Nucleophiles, Electrophiles & Stereochemistry for Tuesday\'s class.' },
+          { id: 'mon-1', time: '04:30 – 05:30', title: '50/10 Block 1: Statistics (Pre-Lecture Ch. 5–6)', type: 'study', nb: 'stats', tip: 'Prime Probability Distributions before 8:30 AM class.' },
+          { id: 'mon-2', time: '16:00 – 17:00', title: '50/10 Block 2: Inorganic Chem (Post-Practical Review)', type: 'study', nb: 'inorganic', tip: 'Review concepts from Inorganic & Practical Analytical sessions.' },
+          { id: 'mon-3', time: '18:30 – 19:30', title: '50/10 Block 3: Organic Chem (Prep Tuesday Ch. 3–4)', type: 'study', nb: 'organic', tip: 'Preview Organic mechanisms for Tuesday\'s 10:30 AM class.' },
           { id: 'mon-4', time: '19:30 – 20:45', title: 'Side Goal 1: Cybersecurity Roadmap & LocalStack', type: 'side' },
           { id: 'mon-5', time: '20:45 – 22:00', title: 'Calm Wind-Down & Hard Sleep at 22:00', type: 'routine' }
         ]
@@ -86,9 +86,9 @@
         ],
         blocks: [
           { id: 'tue-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
-          { id: 'tue-1', time: '04:30 – 05:30', title: '50/10 Block 1: Organic Chem (Deep Mechanism Mastery)', type: 'study', nb: 'organic', tip: 'Master SN1 (planar sp2 carbocation -> racemic) vs SN2 (backside attack).' },
-          { id: 'tue-2', time: '16:00 – 17:00', title: '50/10 Block 2: Organic Chem (Post-Lecture Lock-In)', type: 'study', nb: 'organic', tip: 'Redraw all mechanisms from today\'s 10:30 AM class without looking at notes.' },
-          { id: 'tue-3', time: '18:30 – 19:30', title: '50/10 Block 3: Analytical Chem (Ch. 4 & 6 Studio Quiz)', type: 'study', nb: 'analytic', tip: 'Take a Gemini Notebook Quiz on Gravimetric Analysis & Ionic Equilibria.' },
+          { id: 'tue-1', time: '04:30 – 05:30', title: '50/10 Block 1: Organic Chem (Deep Mechanism Mastery)', type: 'study', nb: 'organic', tip: 'Master SN1 vs SN2 reaction pathways before lecture.' },
+          { id: 'tue-2', time: '16:00 – 17:00', title: '50/10 Block 2: Analytical Chem (Post-Lecture Drill)', type: 'study', nb: 'analytic', tip: 'Solidify titration and equilibrium concepts from today.' },
+          { id: 'tue-3', time: '18:30 – 19:30', title: '50/10 Block 3: Global Trends / Studio Quiz', type: 'study', nb: 'global', tip: 'Run a quick flashcard or quiz review.' },
           { id: 'tue-4', time: '19:30 – 22:00', title: 'Recharge, Acoustic Music & Sleep by 22:00', type: 'routine' }
         ]
       },
@@ -100,23 +100,23 @@
         ],
         blocks: [
           { id: 'wed-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
-          { id: 'wed-1', time: '04:30 – 05:30', title: '50/10 Block 1: Inorganic Chem (Pre-Lecture Ch. 2–4)', type: 'study', nb: 'inorganic', tip: 'Prime Alkaline Earth Metals & Periodic Trends before 10:30 AM class.' },
-          { id: 'wed-2', time: '14:00 – 15:00', title: '50/10 Block 2: Statistics (Unit 8 Hypothesis Testing)', type: 'study', nb: 'stats', tip: 'Exploit your free afternoon! Drill Z-test vs t-test & Central Limit Theorem.' },
-          { id: 'wed-3', time: '18:30 – 19:30', title: '50/10 Block 3: Organic Chem (Alkenes & Stereochemistry)', type: 'study', nb: 'organic', tip: 'Drill Addition to C=C double bonds & R/S configurations.' },
-          { id: 'wed-4', time: '19:30 – 20:45', title: 'Side Goal 2: US Undergrad App Workshop Prep / Projects', type: 'side' },
+          { id: 'wed-1', time: '04:30 – 05:30', title: '50/10 Block 1: History of Ethiopia & the Horn', type: 'study', nb: 'history', tip: 'Review reading materials before 8:30 AM class.' },
+          { id: 'wed-2', time: '14:00 – 15:00', title: '50/10 Block 2: Statistics (Unit 8 Hypothesis Testing)', type: 'study', nb: 'stats', tip: 'Practice Z-test & t-test problem sets during your free afternoon.' },
+          { id: 'wed-3', time: '18:30 – 19:30', title: '50/10 Block 3: Organic Chem (Stereochemistry & Alkenes)', type: 'study', nb: 'organic', tip: 'Drill addition reactions and chiral centers.' },
+          { id: 'wed-4', time: '19:30 – 20:45', title: 'Side Goal 2: US Undergrad App Prep / Projects', type: 'side' },
           { id: 'wed-5', time: '20:45 – 22:00', title: 'Wind-Down & Hard Sleep at 22:00', type: 'routine' }
         ]
       },
       Thursday: {
         classes: [
           { time: '08:30 AM – 10:30 AM', title: 'Analytical Chemistry', nb: 'analytic' },
-          { time: '10:30 AM – 03:30 PM', title: 'No Class (Open Study Day)', nb: null }
+          { time: '01:30 PM – 03:30 PM', title: 'Practical Organic Chemistry', nb: 'organic' }
         ],
         blocks: [
           { id: 'thu-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
-          { id: 'thu-1', time: '04:30 – 05:30', title: '50/10 Block 1: Analytical Chem (Pre-Class Calculations)', type: 'study', nb: 'analytic', tip: 'Work through titration & gravimetric factor calculations before 8:30 AM.' },
-          { id: 'thu-2', time: '14:00 – 15:00', title: '50/10 Block 2: Organic Chem (Ch. 4 Major Reactions)', type: 'study', nb: 'organic', tip: 'Compare SN1, SN2, E1, E2 & Free-Radical Halogenation mechanisms.' },
-          { id: 'thu-3', time: '18:30 – 19:30', title: '50/10 Block 3: Statistics (Confidence Intervals & Sample Size)', type: 'study', nb: 'stats', tip: 'Practice Unit 8 interval estimation problems.' },
+          { id: 'thu-1', time: '04:30 – 05:30', title: '50/10 Block 1: Analytical Chem (Pre-Class Calculations)', type: 'study', nb: 'analytic', tip: 'Prepare titration and equilibrium steps before class.' },
+          { id: 'thu-2', time: '16:00 – 17:00', title: '50/10 Block 2: Practical Organic Prep & Review', type: 'study', nb: 'organic', tip: 'Review lab procedures and underlying reaction theories.' },
+          { id: 'thu-3', time: '18:30 – 19:30', title: '50/10 Block 3: Statistics (Confidence Intervals)', type: 'study', nb: 'stats', tip: 'Practice sample size estimation problems.' },
           { id: 'thu-4', time: '19:30 – 22:00', title: 'Rest, Family Time & Sleep by 22:00', type: 'routine' }
         ]
       },
@@ -126,28 +126,28 @@
         ],
         blocks: [
           { id: 'fri-0', time: '03:45 – 04:30', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
-          { id: 'fri-1', time: '04:30 – 05:30', title: '50/10 Block 1: Organic Chem (Full Ch. 1–4 Synthesis)', type: 'study', nb: 'organic', tip: 'Test your intuition on reactivity, hybridization, and steric hindrance.' },
-          { id: 'fri-2', time: '14:00 – 15:00', title: '50/10 Block 2: Statistics (End-to-End Problem Set)', type: 'study', nb: 'stats', tip: 'Solve mixed problems from Ch. 1–2, Ch. 5, Ch. 6, and Ch. 8.' },
-          { id: 'fri-3', time: '18:30 – 19:30', title: '50/10 Block 3: Inorganic Chem (Ch. 4–5 Flashcards)', type: 'study', nb: 'inorganic', tip: 'Active recall using Gemini Notebook Studio Flashcards.' },
+          { id: 'fri-1', time: '04:30 – 05:30', title: '50/10 Block 1: Organic Chem (Full Ch. 1–4 Synthesis)', type: 'study', nb: 'organic', tip: 'Connect reaction mechanisms across all chapters.' },
+          { id: 'fri-2', time: '14:00 – 15:00', title: '50/10 Block 2: Statistics (End-to-End Problem Set)', type: 'study', nb: 'stats', tip: 'Solve mixed problems from probability and inference.' },
+          { id: 'fri-3', time: '18:30 – 19:30', title: '50/10 Block 3: Inorganic Chem (Flashcard Blitz)', type: 'study', nb: 'inorganic', tip: 'Active recall using Gemini Notebook Studio.' },
           { id: 'fri-4', time: '19:30 – 20:45', title: 'Side Goal 3: Cybersecurity Lab / FreeCodeCamp', type: 'side' },
-          { id: 'fri-5', time: '20:45 – 22:00', title: 'Wind-Down & Hard Sleep at 22:00', type: 'routine' }
+          { id: 'fri-5', time: '20:45 – 22:00', title: 'Wind-Down & Hard Sleep by 22:00', type: 'routine' }
         ]
       },
       Saturday: {
         classes: [],
         blocks: [
           { id: 'sat-0', time: '04:00 – 04:45', title: 'Wake Up, Bathroom & Prayers', type: 'routine' },
-          { id: 'sat-1', time: '04:45 – 05:45', title: '50/10 Block 1: Global Trends Batching', type: 'study', nb: 'global', tip: 'Use Audio Overview & Studio Quiz to master the module fast.' },
-          { id: 'sat-2', time: '14:00 – 15:00', title: '50/10 Block 2: History Module Synthesis', type: 'study', nb: 'history', tip: 'Review key themes in History of Ethiopia and the Horn.' },
-          { id: 'sat-3', time: '18:00 – 19:00', title: '50/10 Block 3: Weekly Boss Quiz (Organic + Stats)', type: 'study', nb: 'organic', tip: '50-minute no-notes check on your hardest topics from the week.' }
+          { id: 'sat-1', time: '04:45 – 05:45', title: '50/10 Block 1: Global Trends Batching', type: 'study', nb: 'global', tip: 'Use Audio Overview & Studio Quiz.' },
+          { id: 'sat-2', time: '14:00 – 15:00', title: '50/10 Block 2: History Module Synthesis', type: 'study', nb: 'history', tip: 'Review chronological milestones.' },
+          { id: 'sat-3', time: '18:00 – 19:00', title: '50/10 Block 3: Weekly Boss Quiz (Organic + Stats)', type: 'study', nb: 'organic', tip: '50-minute review test on core concepts.' }
         ]
       },
       Sunday: {
         classes: [],
         blocks: [
           { id: 'sun-0', time: '05:30 – 06:30', title: 'Sleep-In Recovery & Morning Prayers', type: 'routine' },
-          { id: 'sun-1', time: '16:00 – 17:00', title: '50/10 Block 1: Zero-Prep Setup for Next Week', type: 'study', nb: 'stats', tip: 'Pre-generate next week\'s quizzes & flashcards in Gemini Notebook.' },
-          { id: 'sun-2', time: '18:30 – 19:30', title: '50/10 Block 2: Preview Monday Stats & Analytical', type: 'study', nb: 'analytic', tip: 'Get ahead of Monday\'s 3-lecture day.' }
+          { id: 'sun-1', time: '16:00 – 17:00', title: '50/10 Block 1: Zero-Prep Setup for Next Week', type: 'study', nb: 'stats', tip: 'Pre-generate next week\'s quizzes & flashcards.' },
+          { id: 'sun-2', time: '18:30 – 19:30', title: '50/10 Block 2: Preview Monday Schedule', type: 'study', nb: 'analytic', tip: 'Get ahead of Monday classes.' }
         ]
       }
     };
